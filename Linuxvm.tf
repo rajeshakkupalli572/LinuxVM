@@ -86,7 +86,7 @@ resource "azurerm_subnet" "subnetB" {
 */
 
 resource "azurerm_network_interface" "appinterface" {
-  name                = "appinterface"
+  name                = "sbxnetest01-nic"
   location            = local.location
   resource_group_name = local.resource_group_name
 
@@ -117,7 +117,7 @@ resource "azurerm_network_security_group" "appnsg" {
   resource_group_name = local.resource_group_name
 
   security_rule {
-    name                       = "AllowRDP"
+    name                       = "AllowSSH"
     priority                   = 300
     direction                  = "Inbound"
     access                     = "Allow"
@@ -157,7 +157,7 @@ resource "azurerm_linux_virtual_machine" "LinuxVM" {
   admin_username      = "dkayam"
   admin_password      = "Kayam@9396"
   network_interface_ids = [
-    azurerm_network_interface.appinterface,
+    azurerm_network_interface.appinterface.id
   ]
 
   /*admin_ssh_key {

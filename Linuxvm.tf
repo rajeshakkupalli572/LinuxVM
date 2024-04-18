@@ -136,7 +136,7 @@ resource "azurerm_subnet_network_security_group_association" "appnsglink" {
   subnet_id                 = azurerm_subnet.subnetA.id
   network_security_group_id = azurerm_network_security_group.appnsg.id
 }
-
+/*
 resource "tls_private_key" "privatersakey" {
   algorithm = "RSA"
   rsa_bits  = 4096
@@ -147,21 +147,22 @@ resource "local_file" "linuxkey" {
   filename = "linuxprivatekey.pem"
   depends_on = [ tls_private_key.privatersakey ]
 }
-
+*/
 resource "azurerm_linux_virtual_machine" "LinuxVM" {
   name                = "sbxnetest01"
   resource_group_name = local.resource_group_name
   location            = local.location
-  size                = "Standard_F2"
+  size                = "Standard_B1ms"
   admin_username      = "dkayam"
+  admin_password      = "Kayam@9396"
   network_interface_ids = [
     azurerm_network_interface.appinterface,
   ]
 
-  admin_ssh_key {
+  /*admin_ssh_key {
     username   = "dkayam"
     public_key = tls_private_key.privatersakey.public_key_openssh
-  }
+  }*/
 
   os_disk {
     caching              = "ReadWrite"
@@ -169,9 +170,9 @@ resource "azurerm_linux_virtual_machine" "LinuxVM" {
   }
 
   source_image_reference {
-    publisher = "Canonical"
-    offer     = "0001-com-ubuntu-server-jammy"
-    sku       = "22_04-lts"
+    publisher = "RedHat"
+    offer     = "RHEL"
+    sku       = "8-lvm-gen2"
     version   = "latest"
   }
 

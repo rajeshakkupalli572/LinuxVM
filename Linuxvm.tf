@@ -73,7 +73,7 @@ resource "azurerm_virtual_network" "appnetwork" {
     azurerm_virtual_network.appnetwork
   ]
 }
-
+/*
 resource "azurerm_subnet" "subnetB" {
   name                 = local.subnets[1].name
   resource_group_name  = local.resource_group_name
@@ -83,6 +83,7 @@ resource "azurerm_subnet" "subnetB" {
     azurerm_virtual_network.appnetwork
   ]
 }
+*/
 
 resource "azurerm_network_interface" "appinterface" {
   name                = "appinterface"
@@ -176,9 +177,7 @@ resource "azurerm_linux_virtual_machine" "LinuxVM" {
     version   = "latest"
   }
 
-  depends_on = [ azurerm_network_interface.appinterface,
-                 tls_private_key.privatersakey
-               ]
+  depends_on = [ azurerm_network_interface.appinterface ]
 }
 ##################################################################################
 /* Windows VM Code
